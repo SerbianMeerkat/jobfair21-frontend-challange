@@ -53,12 +53,36 @@ namespace Platformer.Mechanics
 
         protected override void Update()
         {
+            CheckInput();
+            UpdateJumpState();
+            base.Update();
+        }
+
+        void CheckInput()
+        {
             if (controlEnabled)
             {
-                move.x = Input.GetAxis("Horizontal");
-                if (jumpState == JumpState.Grounded && Input.GetButtonDown("Jump"))
+                float inputX = 0f;
+                bool inputJump = false;
+
+                if (MobileInput.inputEnabled)
+                {
+                    inputX = MobileInput.Instance.inputX;
+                    inputJump = MobileInput.Instance.jump;
+                }
+                else
+                {
+                    inputX = Input.GetAxis("Horizontal");
+                    inputJump = Input.GetButton("Jump");
+                }
+
+                move.x = inputX;
+
+                if (jumpState == JumpState.Grounded && inputJump)
+                {
                     jumpState = JumpState.PrepareToJump;
-                else if (Input.GetButtonUp("Jump"))
+                }
+                else if (!inputJump)
                 {
                     stopJump = true;
                     Schedule<PlayerStopJump>().player = this;
@@ -68,8 +92,6 @@ namespace Platformer.Mechanics
             {
                 move.x = 0;
             }
-            UpdateJumpState();
-            base.Update();
         }
 
         void UpdateJumpState()

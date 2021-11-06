@@ -1,4 +1,5 @@
 using Platformer.BlurredScreenshot;
+using Platformer.Core;
 using Platformer.Model;
 using TMPro;
 using UnityEngine;
@@ -19,7 +20,10 @@ namespace Platformer.UI
 
         [SerializeField] private Color titleLostColor;
         [SerializeField] private Color titleWonColor;
-        
+
+        [SerializeField] private string titleLostText = "LEVEL LOST";
+        [SerializeField] private string titleWonText = "LEVEL WON";
+
         #endregion Fields and Properties
 
         public void Show(bool won)
@@ -31,6 +35,9 @@ namespace Platformer.UI
             lblEnemiesKilled.text = GameDatabase.Instance.CurrentUser.EnemiesKilled.ToString();
             lblUsername.text = GameDatabase.Instance.CurrentUser.Username;
             lblScore.text = GameDatabase.Instance.CurrentUser.Score.ToString();
+
+            lblTitle.text = won ? titleWonText : titleLostText;
+            lblTitle.color = won ? titleWonColor : titleLostColor;
         }
 
         #region Event Handlers
@@ -42,6 +49,7 @@ namespace Platformer.UI
 
         public void BtnReplayClicked()
         {
+            Simulation.Clear();
             SceneManager.LoadScene("Assets/Scenes/LevelScene.unity", LoadSceneMode.Single);
         }
 
