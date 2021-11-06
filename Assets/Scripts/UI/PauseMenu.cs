@@ -1,4 +1,5 @@
 using Platformer.BlurredScreenshot;
+using Platformer.Core;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -8,17 +9,18 @@ namespace Platformer.UI
     {
 
         [SerializeField] private BlurredBackground blurredBackground;
+        [SerializeField] private Animator animator;
 
         public void Show()
         {
             blurredBackground.Show();
-            gameObject.SetActive(true);
+            animator.SetBool("showing", true);
         }
 
         public void Hide()
         {
             blurredBackground.Hide();
-            gameObject.SetActive(false);
+            animator.SetBool("showing", false);
         }
 
         #region Event Handlers
@@ -30,12 +32,14 @@ namespace Platformer.UI
 
         public void BtnMainMenuClicked()
         {
-            SceneManager.LoadScene("Assets/Scenes/MainScene.unity", LoadSceneMode.Single);
+            Simulation.Clear();
+            SceneManagerExtensions.LoadSceneWithFade("Assets/Scenes/MainScene.unity");
         }
 
         public void BtnRestartClicked()
         {
-            SceneManager.LoadScene("Assets/Scenes/LevelScene.unity", LoadSceneMode.Single);
+            Simulation.Clear();
+            SceneManagerExtensions.LoadSceneWithFade("Assets/Scenes/LevelScene.unity");
         }
 
         #endregion Event Handlers

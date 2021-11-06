@@ -44,13 +44,14 @@ namespace Platformer.UI
         
         public void BtnMainMenuClicked()
         {
-            SceneManager.LoadScene("Assets/Scenes/MainScene.unity", LoadSceneMode.Single);
+            Simulation.Clear();
+            SceneManagerExtensions.LoadSceneWithFade("Assets/Scenes/MainScene.unity");
         }
 
         public void BtnReplayClicked()
         {
             Simulation.Clear();
-            SceneManager.LoadScene("Assets/Scenes/LevelScene.unity", LoadSceneMode.Single);
+            SceneManagerExtensions.LoadSceneWithFade("Assets/Scenes/LevelScene.unity");
         }
 
         #endregion Event Handlers

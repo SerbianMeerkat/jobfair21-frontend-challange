@@ -49,7 +49,7 @@ namespace Platformer.UI
 
         public void BtnPlayClicked()
         {
-            SceneManager.LoadScene("Assets/Scenes/LevelScene.unity", LoadSceneMode.Single);
+            SceneManagerExtensions.LoadSceneWithFade("Assets/Scenes/LevelScene.unity");
         }
         
         #endregion Event Handlers
