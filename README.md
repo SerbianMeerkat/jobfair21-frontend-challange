@@ -5,6 +5,7 @@
 - Fixed all issues marked as TO DO
 - Added mobile support
 - Made UI scalable across all aspect ratios
+- Polished the UI
 - Made some minor changes to the level
 
 <h3>Screenshots of the mobile port</h3>
