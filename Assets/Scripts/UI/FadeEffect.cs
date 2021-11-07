@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,6 +14,8 @@ public class FadeEffect : MonoBehaviour
 
     public static FadeEffect instance;
 
+    static Action OnComplete;
+
     [RuntimeInitializeOnLoadMethod]
     static void Create()
     {
@@ -27,22 +30,18 @@ public class FadeEffect : MonoBehaviour
         AudioListener.volume = Mathf.Clamp(-val + 1f, 0f, 1f);
     }
 
-    public static void FadeIn(float time)
+    public static void FadeIn(float time, Action onComplete = null)
     {
         instance.StopAllCoroutines();
+        OnComplete = onComplete;
         instance.StartCoroutine(DoFadeIn(time));
     }
 
-    public static void FadeOut(float time)
+    public static void FadeOut(float time, Action onComplete = null)
     {
         instance.StopAllCoroutines();
+        OnComplete = onComplete;
         instance.StartCoroutine(DoFadeOut(time));
-    }
-
-    public static void FadeOutAndIn(float fadeOut, float fadeIn)
-    {
-        instance.StopAllCoroutines();
-        instance.StartCoroutine(DoFadeOutAndIn(fadeOut, fadeIn));
     }
 
     static IEnumerator DoFadeIn(float time)
@@ -53,6 +52,9 @@ public class FadeEffect : MonoBehaviour
             val -= Time.unscaledDeltaTime / time;
             yield return null;
         }
+
+        if(OnComplete != null)
+            OnComplete.Invoke();
     }
 
     static IEnumerator DoFadeOut(float time)
@@ -63,12 +65,8 @@ public class FadeEffect : MonoBehaviour
             val += Time.unscaledDeltaTime / time;
             yield return null;
         }
-    }
 
-    static IEnumerator DoFadeOutAndIn(float fadeOut, float fadeIn)
-    {
-        instance.StartCoroutine(DoFadeOut(fadeOut));
-        yield return new WaitForSecondsRealtime(fadeOut);
-        instance.StartCoroutine(DoFadeIn(fadeIn));
+        if (OnComplete != null)
+            OnComplete.Invoke();
     }
 }

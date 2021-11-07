@@ -13,12 +13,14 @@ namespace Platformer.UI
 
         public void Show()
         {
+            Time.timeScale = 0;
             blurredBackground.Show();
             animator.SetBool("showing", true);
         }
 
         public void Hide()
         {
+            Time.timeScale = 1;
             blurredBackground.Hide();
             animator.SetBool("showing", false);
         }

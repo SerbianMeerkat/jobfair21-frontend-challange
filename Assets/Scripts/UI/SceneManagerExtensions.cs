@@ -7,11 +7,13 @@ public class SceneManagerExtensions
 {
     public static void LoadSceneWithFade(string sceneName, float fadeOut = 0.05f, float fadeIn = 0.3f)
     {
-        FadeEffect.FadeOut(fadeOut);
-
-        SceneManager.LoadSceneAsync(sceneName).completed += (op) =>
+        FadeEffect.FadeOut(fadeOut, () => 
         {
-            FadeEffect.FadeIn(fadeIn);
-        };
+            Time.timeScale = 1;
+            SceneManager.LoadSceneAsync(sceneName).completed += (op) =>
+            {
+                FadeEffect.FadeIn(fadeIn);
+            };
+        });
     }
 }
